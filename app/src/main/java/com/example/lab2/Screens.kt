@@ -47,8 +47,9 @@ fun App() {
     val appController = rememberNavController()
     NavHost(navController = appController, startDestination = "main") {
         composable("main") { MainScreen(topNavController = appController) }
-        composable("editProfile") { EditProfileScreen() }
+        composable("editProfile") { EditProfileScreen(navController = appController) }
         composable("newSong") { NewSong() }
+        composable("newPlaylist"){NewPlaylist()}
     }
 }
 
@@ -257,7 +258,7 @@ fun NewSong() {
 }
 
 @Composable
-fun EditProfileScreen() {
+fun EditProfileScreen(navController: NavController = rememberNavController()) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             Box(
@@ -284,7 +285,9 @@ fun EditProfileScreen() {
                 LabeledTextField(value = "Gamma") {}
                 LabeledTextFieldWithButton(value = "Beta", onValueChange = {}, onButtonClick = {})
                 Button(
-                    onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(
+                    onClick = {
+                        navController.popBackStack()
+                    }, colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF1ED760)
                     )
                 ) {
